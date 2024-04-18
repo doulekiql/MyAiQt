@@ -7,11 +7,11 @@ class Vector:
 
 
     def __repr__(self):
-        return f"Vector: {self._elements}"
+        return f"Vector - {self._elements}"
 
 
     def __str__(self):
-        return f"Vector: [{ ', '.join(str(e) for e in self._elements) }]"
+        return f"Vector - [{ ', '.join(str(e) for e in self._elements) }]"
 
 
     def __iter__(self):
@@ -29,19 +29,19 @@ class Vector:
     def __add__(self, another):
         if isinstance(another, Vector):
             if len(self._elements) != len(another._elements):
-                raise ValueError("Vector: both vectors must have the same dimension.")
+                raise ValueError("Vector - both vectors must have the same dimension.")
             return Vector([a + b for a, b in zip(self._elements, another._elements)])
         else:
-            raise TypeError(f"Vector: unsupported operand type(s) for: 'Vector' and '{type(another).__name__}'")
+            raise TypeError(f"Vector - unsupported operand type(s) for: 'Vector' and '{type(another).__name__}'")
 
 
     def __sub__(self, other):
         if isinstance(other, Vector):
             if len(self._elements) != len(other._elements):
-                raise ValueError("Vector: both vectors must have the same dimension.")
+                raise ValueError("Vector - both vectors must have the same dimension.")
             return Vector([a - b for a, b in zip(self._elements, other._elements)])
         else:
-            raise TypeError(f"Vector: unsupported operand type(s) for: 'Vector' and '{type(other).__name__}'")
+            raise TypeError(f"Vector - unsupported operand type(s) for: 'Vector' and '{type(other).__name__}'")
 
 
     def __mul__(self, k):
@@ -61,17 +61,19 @@ class Vector:
 
 
     def __truediv__(self, k):
-        """返回数量除法的结果向量：self / k"""
-        return (1 / k) * self
+        if np.isclose(k, 0.0, atol=1e-9):
+            raise ZeroDivisionError("Vector - division by zero")
+        else:
+            return (1 / k) * self
 
 
     def dot(self, another):
         if isinstance(another, Vector):
             if len(self._elements) != len(another._elements):
-                raise ValueError("Vector: both vectors must have the same dimension.")
+                raise ValueError("Vector - both vectors must have the same dimension.")
             return sum(a * b for a, b in zip(self, another))
         else:
-            raise TypeError(f"Vector: unsupported operand type(s) for: 'Vector' and '{type(another).__name__}'")
+            raise TypeError(f"Vector - unsupported operand type(s) for: 'Vector' and '{type(another).__name__}'")
 
 
     def magnitude(self):
@@ -81,7 +83,7 @@ class Vector:
     def normalize(self):
         magnitude = self.magnitude()
         if np.isclose(magnitude, 0.0, atol=1e-9):
-            raise ZeroDivisionError("Vector: magnitude is zero")
+            raise ZeroDivisionError("Vector - magnitude is zero")
         return Vector(self._elements) / self.magnitude()
 
     @classmethod
