@@ -59,8 +59,7 @@ class Matrix:
         if isinstance(another, Matrix):
             if self.shape() != another.shape():
                 raise ValueError("Matrix - both matrices must have the same shape.")
-            return Matrix([[a + b for a, b in zip(self.row_vector(i), another.row_vector(i))]
-                           for i in range(self.row_len())])
+            return Matrix([[a + b for a, b in zip(self.row_vector(i), another.row_vector(i))] for i in range(self.row_len())])
         else:
             raise TypeError(f"Matrix - unsupported operand type(s) for: 'Matrix' and '{type(another).__name__}'")
 
@@ -69,8 +68,7 @@ class Matrix:
         if isinstance(another, Matrix):
             if self.shape() != another.shape():
                 raise ValueError("Matrix - both matrices must have the same shape.")
-            return Matrix([[a - b for a, b in zip(self.row_vector(i), another.row_vector(i))]
-                           for i in range(self.row_len())])
+            return Matrix([[a - b for a, b in zip(self.row_vector(i), another.row_vector(i))] for i in range(self.row_len())])
         else:
             raise TypeError(f"Matrix - unsupported operand type(s) for: 'Matrix' and '{type(another).__name__}'")
 
@@ -90,15 +88,35 @@ class Matrix:
             return (1 / k) * self
 
 
+    def dot(self, another):
+        if isinstance(another, Vector):
+            if self.col_len() != len(another):
+                raise ValueError("Matrix - the number of columns of the matrix must be equal to the dimension of the vector.")
+            return Vector([self.row_vector(i).dot(another) for i in range(self.row_len())])
+        elif isinstance(another, Matrix):
+            if self.shape()[1] != another.shape()[0]:
+                raise ValueError("Matrix - the number of columns of the first matrix must be equal to the number of rows of the second matrix.")
+            return Matrix([[self.row_vector(i).dot(another.col_vector(j)) for j in range(another.col_len())] for i in range(self.row_len())])
+        else:
+            raise TypeError(f"Matrix - unsupported operand type(s) for: 'Matrix' and '{type(another).__name__}'")
+
+
+    def T(self):
+        return Matrix([[e for e in self.col_vector(i)] for i in range(self.col_len())])
+
+
     @staticmethod
     def zero(r, c):
         return Matrix([[0] * c for _ in range(r)])
 
 
 if __name__ == "__main__":
+    v_1 = Vector([1, 2, 3])
     m_1 = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     m_2 = Matrix([[10, 11, 12], [13, 14, 15], [16, 17, 18]])
+    print(f"Vector_1: {v_1}")
     print(f"Matrix_1: {m_1}")
+    print(f"Matrix_2: {m_2}")
     print(f"Matrix_1 element (1, 1): {m_1[1, 1]}")
     print(f"Matrix_1 row 1: {m_1.row_vector(1)}")
     print(f"Matrix_1 column 1: {m_1.col_vector(1)}")
@@ -111,7 +129,9 @@ if __name__ == "__main__":
     print(f"Matrix_1 - Matrix_2: {m_1 - m_2}")
     print(f"Matrix_1 * 2: {m_1 * 2}")
     print(f"Matrix_1 / 2: {m_1 / 2}")
-    print(f"Matrix zero 2x3: {Matrix.zero(2, 3)}")
-
-
+    print(f"Matrix_1 dot Vector_1: {m_1.dot(v_1)}")
+    print(f"Matrix_1 dot Matrix_2: {m_1.dot(m_2)}")
+    print(f"Matrix_2 dot Matrix_1: {m_2.dot(m_1)}")
+    print(f"Matrix_1 Transpose: {m_1.T()}")
+    print(f"Matrix Zero 2x3: {Matrix.zero(2, 3)}")
 
