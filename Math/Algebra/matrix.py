@@ -107,8 +107,14 @@ class Matrix:
 
 
     @staticmethod
+    def identity(n):
+        return Matrix([[1 if i == j else 0 for j in range(n)] for i in range(n)])
+
+
+    @staticmethod
     def zero(r, c):
         return Matrix([[0] * c for _ in range(r)])
+
 
 def plot(m_p, m_t):
     plt.figure(figsize=(10, 5))
@@ -147,15 +153,16 @@ if __name__ == "__main__":
     print(f"Matrix_1 dot Matrix_2: {m_1.dot(m_2)}")
     print(f"Matrix_2 dot Matrix_1: {m_2.dot(m_1)}")
     print(f"Matrix_1 Transpose: {m_1.T()}")
+    print(f"Matrix Identity 3x3: {Matrix.identity(3)}")
     print(f"Matrix Zero 2x3: {Matrix.zero(2, 3)}")
 
     points = [[0,0], [0,7], [3, 7], [3, 6], [1, 6], [1, 5], [3, 5], [3, 4], [1, 4], [1, 0], [0, 0]]
 
-    print("Transformation: 1x")
-    plot(Matrix(points).T(), Matrix([[1, 0], [0, 1]]))
+    print("Transformation: 0.5x")
+    plot(Matrix(points).T(), Matrix([[0.5, 0], [0, 0.5]]))
 
-    print("Transformation: 3x")
-    plot(Matrix(points).T(), Matrix([[3, 0], [0, 3]]))
+    print("Transformation: 2x")
+    plot(Matrix(points).T(), Matrix([[2, 0], [0, 2]]))
 
     print("Transformation: origin flip")
     plot(Matrix(points).T(), Matrix([[1, 0], [0, -1]]))
@@ -166,6 +173,10 @@ if __name__ == "__main__":
     print("Transformation: rotate 45 degrees")
     plot(Matrix(points).T(), Matrix([[np.cos(np.pi/4), np.sin(np.pi/4)],
                                      [-np.sin(np.pi/4), np.cos(np.pi/4)]]))
+
+    print("Transformation: rotate -90 degrees")
+    plot(Matrix(points).T(), Matrix([[0, -1], [1, 0]]))
+
 
 
 
