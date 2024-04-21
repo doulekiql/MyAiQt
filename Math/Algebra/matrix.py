@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 from vector import Vector
 
@@ -109,8 +110,21 @@ class Matrix:
     def zero(r, c):
         return Matrix([[0] * c for _ in range(r)])
 
+def plot(m_p, m_t):
+    plt.figure(figsize=(10, 5))
+    plt.xlim(-25, 25)
+    plt.ylim(-25, 25)
+
+    plt.plot([m_p.col_vector(i)[0] for i in range(m_p.col_len())],
+             [m_p.col_vector(i)[1] for i in range(m_p.col_len())])
+
+    m_p = m_t.dot(m_p)
+    plt.plot([m_p.col_vector(i)[0] for i in range(m_p.col_len())],
+             [m_p.col_vector(i)[1] for i in range(m_p.col_len())])
+    plt.show()
 
 if __name__ == "__main__":
+
     v_1 = Vector([1, 2, 3])
     m_1 = Matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
     m_2 = Matrix([[10, 11, 12], [13, 14, 15], [16, 17, 18]])
@@ -134,4 +148,24 @@ if __name__ == "__main__":
     print(f"Matrix_2 dot Matrix_1: {m_2.dot(m_1)}")
     print(f"Matrix_1 Transpose: {m_1.T()}")
     print(f"Matrix Zero 2x3: {Matrix.zero(2, 3)}")
+
+    points = [[0,0], [0,7], [3, 7], [3, 6], [1, 6], [1, 5], [3, 5], [3, 4], [1, 4], [1, 0], [0, 0]]
+
+    print("Transformation: 1x")
+    plot(Matrix(points).T(), Matrix([[1, 0], [0, 1]]))
+
+    print("Transformation: 3x")
+    plot(Matrix(points).T(), Matrix([[3, 0], [0, 3]]))
+
+    print("Transformation: origin flip")
+    plot(Matrix(points).T(), Matrix([[1, 0], [0, -1]]))
+
+    print("Transformation: shear warp")
+    plot(Matrix(points).T(), Matrix([[1, 0.5], [0.5, 1]]))
+
+    print("Transformation: rotate 45 degrees")
+    plot(Matrix(points).T(), Matrix([[np.cos(np.pi/4), np.sin(np.pi/4)],
+                                     [-np.sin(np.pi/4), np.cos(np.pi/4)]]))
+
+
 
