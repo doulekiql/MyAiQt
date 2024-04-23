@@ -86,6 +86,10 @@ class Vector:
             raise ZeroDivisionError("Vector - magnitude is zero")
         return Vector(self._elements) / self.magnitude()
 
+
+    def elements(self):
+        return self._elements
+
     @classmethod
     def zero(cls, dim):
         return Vector([0] * dim)
