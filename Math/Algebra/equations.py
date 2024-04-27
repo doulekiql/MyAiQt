@@ -62,11 +62,11 @@ class Equations:
 
 
 if __name__=="__main__":
-    A = Matrix([[2, 3, 1], [4, 7, 8], [9, 6, 7]])
-    b = Vector([1, 2, 3])
-    eq = Equations(A, b)
-    eq.gauss_jordan_elimination()
-    eq.print_augmatrix()
+    A0 = Matrix([[2, 3, 1], [4, 7, 8], [9, 6, 7]])
+    b0 = Vector([1, 2, 3])
+    eq0 = Equations(A0, b0)
+    eq0.gauss_jordan_elimination()
+    eq0.print_augmatrix()
 
     A1 = Matrix([[1, 2, 4], [3, 7, 2], [2, 3, 3]])
     b1 = Vector([7, -11, 1])
@@ -110,19 +110,14 @@ if __name__=="__main__":
     eq6.print_augmatrix()
     print()
 
-    A7 = Matrix([[1, -1, 2, 0, 3],
-                 [-1, 1, 0, 2, -5],
-                 [1, -1, 4, 2, 4],
-                 [-2, 2, -5, -1, -3]])
+    A7 = Matrix([[1, -1, 2, 0, 3], [-1, 1, 0, 2, -5], [1, -1, 4, 2, 4], [-2, 2, -5, -1, -3]])
     b7 = Vector([1, 5, 13, -1])
     eq7 = Equations(A7, b7)
     eq7.gauss_jordan_elimination()
     eq7.print_augmatrix()
     print()
 
-    A8 = Matrix([[2, 2],
-                 [2, 1],
-                 [1, 2]])
+    A8 = Matrix([[2, 2], [2, 1], [1, 2]])
     b8 = Vector([3, 2.5, 7])
     eq8 = Equations(A8, b8)
     if not eq8.gauss_jordan_elimination():
@@ -130,9 +125,7 @@ if __name__=="__main__":
     eq8.print_augmatrix()
     print()
 
-    A9 = Matrix([[2, 0, 1],
-                 [-1, -1, -2],
-                 [-3, 0, 1]])
+    A9 = Matrix([[2, 0, 1], [-1, -1, -2], [-3, 0, 1]])
     b9 = Vector([1, 0, 0])
     eq9 = Equations(A9, b9)
     if not eq9.gauss_jordan_elimination():
